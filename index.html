@@ -262,7 +262,7 @@ dialog[open] { display: flex; flex-direction: column; }
       <a href="#changelog">changelog</a>
     </nav>
     <div class="spacer"></div>
-    <a class="link-btn" href="https://github.com" target="_blank" rel="noopener">★ star on github</a>
+    <a class="link-btn" href="https://github.com/FelixDerLetz" target="_blank" rel="noopener">github ↗</a>
     <a class="link-btn tea" href="https://buymeacoffee.com/felixderletzte" target="_blank" rel="noopener">☕ <span>buy me an iced tea</span></a>
     <button class="link-btn" type="button" id="themeBtn" aria-label="Switch theme" title="Switch theme (t)">theme</button>
   </div>
@@ -363,6 +363,7 @@ dialog[open] { display: flex; flex-direction: column; }
               <li>New look, with light and dark theme</li>
               <li>Subnet calculator shows the wildcard mask and handles /31 and /32</li>
               <li>LED designer: drag to paint, zigzag wiring</li>
+              <li>New 3D printing cheat sheets: slicer starting values, fixes by symptom, orientation and fit</li>
               <li>Fixed: bad subnet input shows an error now</li>
             </ul>
           </li>
@@ -383,7 +384,7 @@ dialog[open] { display: flex; flex-direction: column; }
 <footer>
   <div class="foot-in">
     <span>made with coffee, vim and way too many open tabs · MIT</span>
-    <span><a href="https://github.com" target="_blank" rel="noopener">source on github</a> · <kbd>/</kbd> search · <kbd>t</kbd> theme</span>
+    <span><a href="https://github.com/FelixDerLetz" target="_blank" rel="noopener">my github</a> · <kbd>/</kbd> search · <kbd>t</kbd> theme</span>
   </div>
 </footer>
 
@@ -416,9 +417,15 @@ dialog[open] { display: flex; flex-direction: column; }
     { id: "pygame-boiler", title: "Pygame game loop", cat: "Python", desc: "A window, a 60 FPS clock and a clean quit.",
       code: "import pygame\nimport sys\n\npygame.init()\nWIDTH, HEIGHT = 800, 600\nscreen = pygame.display.set_mode((WIDTH, HEIGHT))\nclock = pygame.time.Clock()\n\nwhile True:\n    for event in pygame.event.get():\n        if event.type == pygame.QUIT:\n            pygame.quit()\n            sys.exit()\n\n    screen.fill((13, 17, 23))\n    pygame.display.flip()\n    clock.tick(60)" },
     { id: "git-undo", title: "Git rescue commands", cat: "Dev", desc: "Undo, uncommit, stash and amend without panic.",
-      code: "# Undo last commit, keep changes staged\ngit reset --soft HEAD~1\n\n# Throw away all local changes (no undo!)\ngit reset --hard HEAD\n\n# Park unfinished work\ngit stash push -m \"wip feature\"\ngit stash pop\n\n# Fix the last commit message\ngit commit --amend -m \"New clean message\"" }
+      code: "# Undo last commit, keep changes staged\ngit reset --soft HEAD~1\n\n# Throw away all local changes (no undo!)\ngit reset --hard HEAD\n\n# Park unfinished work\ngit stash push -m \"wip feature\"\ngit stash pop\n\n# Fix the last commit message\ngit commit --amend -m \"New clean message\"" },
+    { id: "slice-basics", title: "Slicing starting values", cat: "3D Print", desc: "Layer height, walls, infill and temperatures to start from with a 0.4 mm nozzle.",
+      code: "# Starting points for a 0.4 mm nozzle (tune per printer)\nLayer height   0.2 mm   (0.12 = detail, 0.28 = fast draft)\nRule of thumb  25-75% of the nozzle diameter\nLine width     0.4-0.45 mm\nWalls          3        (2 = looks only, 4+ = strong)\nTop / bottom   5 / 4 layers at 0.2 mm\nInfill         15% gyroid for display parts\n               30-50% for parts under load\nFirst layer    0.2-0.3 mm, 20-30 mm/s\nSpeeds         outer wall 40-60, infill 80-150 mm/s\n\n# Temperatures (check the spool label first)\nPLA    nozzle 195-220  bed 50-60\nPETG   nozzle 230-250  bed 70-85\nASA    nozzle 240-260  bed 95-110  (enclosure, ventilate)\nTPU    nozzle 220-235  bed 30-60   (slow, 20-30 mm/s)" },
+    { id: "slice-fix", title: "Slicer fixes by symptom", cat: "3D Print", desc: "Stringing, warping, elephant foot and other print flaws, and the setting I change first.",
+      code: "# Symptom -> what I try first\nStringing        nozzle -5 to -10 C, dry the filament,\n                 retraction 0.5-1 mm direct / 4-6 mm bowden\nWarping          hotter bed, brim, no drafts, clean the plate,\n                 enclosure for ABS/ASA\nElephant foot    bed -5 C, first layer horizontal expansion -0.1 to -0.2 mm\nGaps in top      more top layers, more infill, check flow\nUnder-extrusion  nozzle +5 C, print slower, calibrate flow, check for clogs\nRinging          lower acceleration, check belts\nBad overhangs    fan 100% (PLA), slower, add supports above ~50 deg\nBlobs at seam    tune pressure/linear advance, move the seam" },
+    { id: "slice-orient", title: "Orientation, supports and fit", cat: "3D Print", desc: "How to place a part, when to use supports, tolerances for holes and heat limits of materials.",
+      code: "# Orientation\nLayers are the weak axis, so loads should not pull layers apart.\nPut the biggest flat face on the bed.\nTurn parts so overhangs stay under about 45 deg.\n\n# Supports\nTree supports for organic shapes, normal ones for flat bridges.\nZ gap of 1 layer (0.2 mm) for easy removal.\nBrim 5-8 mm for tall, thin or warp-prone parts.\n\n# Seams\nHide the seam in a corner or on the back side.\n\n# Fit\nHoles print 0.1-0.2 mm too small.\nClearance for moving parts 0.2-0.3 mm, press fits about 0.1 mm.\n\n# Heat\nPLA softens around 55-60 C. Use PETG (about 70-80 C)\nor ASA/ABS (about 90-100 C) for parts in a hot car or near a heater." }
   ];
-  var cats = ["All", "Tools", "Linux", "Networking", "Hardware", "Security", "Python", "Dev"];
+  var cats = ["All", "Tools", "Linux", "Networking", "Hardware", "3D Print", "Security", "Python", "Dev"];
   var active = "All";
 
   /* toast + copy */
